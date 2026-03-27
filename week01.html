@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>환경경제학 | Week 1 – 환경경제학 입문 & 경제와 자연환경</title>
+<style>
+/* ── 기본 ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  background:#f7f8fc;
+  color:#1f2937;
+  display:flex;
+  min-height:100vh;
+  line-height:1.9;
+}
+
+/* ── 사이드바 ── */
+#sidebar{
+  width:260px;min-width:260px;
+  background:#14301e;
+  height:100vh;position:sticky;top:0;
+  overflow-y:auto;z-index:100;
+}
+#sidebar-header{
+  background:#0a1f12;
+  padding:24px 18px;
+  border-bottom:2px solid #16a34a;
+}
+.book-label{font-size:11px;color:#4ade80;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+#sidebar-header h1{font-size:15px;font-weight:700;color:#f0fff4;line-height:1.5}
+#toc{padding:10px 0}
+#toc ul{list-style:none}
+#toc li a{
+  display:block;padding:8px 18px;
+  color:#6db885;text-decoration:none;
+  font-size:13px;line-height:1.4;
+  border-left:3px solid transparent;
+  transition:all .15s;
+}
+#toc li a:hover{background:#1a3d26;color:#d1fae5;border-left-color:#4ade80}
+#toc li a.active{background:#1a3d26;color:#86efac;border-left-color:#16a34a;font-weight:600}
+#toc .toc-section{
+  padding:16px 18px 6px;
+  font-size:10px;font-weight:700;color:#4b7a5c;
+  letter-spacing:1.5px;text-transform:uppercase;
+}
+
+/* ── 본문 ── */
+#main{flex:1;min-width:0;padding:48px 60px;max-width:860px}
+
+.chapter-header{margin-bottom:52px;padding-bottom:24px;border-bottom:3px solid #16a34a}
+.chapter-badge{
+  display:inline-block;background:#dcfce7;color:#15803d;
+  font-size:12px;font-weight:700;padding:4px 14px;
+  border-radius:20px;letter-spacing:1px;margin-bottom:14px;
+}
+.chapter-header h1{font-size:36px;font-weight:800;color:#111827;line-height:1.25}
+.chapter-header .subtitle{font-size:18px;color:#6b7280;margin-top:8px}
+.chapter-meta{
+  display:flex;gap:24px;margin-top:20px;flex-wrap:wrap;
+}
+.meta-item{font-size:13px;color:#6b7280}
+.meta-item strong{color:#15803d}
+
+/* ── 섹션 ── */
+.text-section{
+  margin-bottom:60px;
+  padding-bottom:40px;
+  border-bottom:1px solid #e5e7eb;
+}
+.text-section:last-child{border-bottom:none}
+.text-section > h2{
+  font-size:26px;font-weight:800;color:#14532d;
+  margin-bottom:6px;padding-bottom:12px;
+  border-bottom:2px solid #bbf7d0;
+}
+.section-subtitle{font-size:15px;color:#6b7280;margin-bottom:18px;font-style:italic}
+
+.text-section h3{
+  font-size:19px;font-weight:700;color:#15803d;
+  margin:30px 0 12px;padding-left:12px;
+  border-left:4px solid #4ade80;
+}
+.text-section h4{
+  font-size:16px;font-weight:700;color:#166534;
+  margin:22px 0 8px;
+}
+.text-section p{
+  font-size:15.5px;color:#374151;margin-bottom:14px;
+  max-width:720px;
+}
+.text-section ul,.text-section ol{
+  margin:10px 0 16px 24px;
+}
+.text-section li{
+  font-size:15px;color:#374151;margin-bottom:8px;line-height:1.85;
+}
+
+/* ── 강조 박스 ── */
+.def-box{
+  background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid #16a34a;
+  border-radius:8px;padding:16px 20px;margin:18px 0;
+}
+.def-title{font-weight:700;color:#15803d;margin-bottom:8px;font-size:14px}
+.def-box p{margin:0;font-size:14.5px;color:#14532d;line-height:1.8}
+
+.callout{border-radius:8px;padding:14px 18px;margin:18px 0;font-size:14.5px}
+.callout-title{font-weight:700;margin-bottom:6px}
+.callout.readings{background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid #16a34a}
+.callout.readings .callout-title{color:#15803d}
+.callout.readings ul{margin:6px 0 0 18px}
+.callout.readings li{font-size:14px;color:#14532d;margin-bottom:4px}
+
+.callout.example{background:#fefce8;border:1px solid #fde68a;border-left:4px solid #ca8a04}
+.callout.example .callout-title{color:#92400e}
+.callout.example p{margin:0;color:#78350f;font-size:14.5px}
+
+.callout.important{background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #ea580c}
+.callout.important .callout-title{color:#c2410c}
+.callout.important p{margin:0;color:#7c2d12;font-size:14.5px}
+
+.callout.research{background:#eff6ff;border:1px solid #bfdbfe;border-left:4px solid #2563eb}
+.callout.research .callout-title{color:#1d4ed8}
+.callout.research p,.callout.research li{font-size:14px;color:#1e3a8a;margin-bottom:4px}
+.callout.research ul{margin:6px 0 0 18px}
+
+/* ── 용어 테이블 ── */
+.term-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px}
+.term-table th{
+  background:#14532d;color:#fff;
+  padding:10px 14px;text-align:left;font-weight:600;
+}
+.term-table td{padding:10px 14px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+.term-table tr:nth-child(even) td{background:#f9fafb}
+.term-table td:first-child{font-weight:700;color:#15803d;white-space:nowrap;width:35%}
+
+/* ── 오염 경로 다이어그램 ── */
+.pathway{
+  display:flex;align-items:center;flex-wrap:wrap;gap:0;
+  margin:20px 0;background:#f9fafb;border-radius:12px;padding:20px;
+  border:1px solid #e5e7eb;
+}
+.pathway-step{
+  background:#fff;border:1.5px solid #bbf7d0;border-radius:10px;
+  padding:12px 16px;text-align:center;flex:1;min-width:110px;
+}
+.pathway-step .step-icon{font-size:22px;margin-bottom:4px}
+.pathway-step .step-title{font-size:12px;font-weight:700;color:#14532d}
+.pathway-step .step-desc{font-size:11px;color:#6b7280;margin-top:2px}
+.pathway-arrow{font-size:22px;color:#4ade80;padding:0 6px;flex-shrink:0}
+
+/* ── 섹션 구분자 ── */
+.part-divider{
+  background:linear-gradient(135deg,#14532d,#15803d);
+  color:#fff;border-radius:12px;padding:20px 28px;
+  margin:48px 0 32px;
+}
+.part-divider .part-label{font-size:11px;letter-spacing:2px;color:#86efac;text-transform:uppercase;margin-bottom:6px}
+.part-divider h2{font-size:22px;font-weight:800}
+.part-divider p{font-size:14px;color:#bbf7d0;margin-top:6px}
+
+/* ── 맨 위로 / 네비게이션 ── */
+.nav-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 0;margin-top:48px;border-top:2px solid #e5e7eb;
+}
+.nav-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  text-decoration:none;font-size:14px;font-weight:600;
+  color:#15803d;padding:8px 18px;border-radius:8px;
+  border:1.5px solid #bbf7d0;transition:all .15s;
+}
+.nav-btn:hover{background:#f0fdf4;border-color:#4ade80}
+
+/* ── 반응형 ── */
+@media(max-width:768px){
+  body{flex-direction:column}
+  #sidebar{width:100%;height:auto;position:relative}
+  #main{padding:28px 20px}
+  .pathway{flex-direction:column;align-items:stretch}
+  .pathway-arrow{transform:rotate(90deg);text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- 사이드바 -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="book-label">Environmental Economics</div>
+    <h1>Week 1<br>환경경제학 입문 &amp;<br>경제와 자연환경</h1>
+  </div>
+  <div id="toc">
+    <div class="toc-section">Part I — 환경경제학이란</div>
+    <ul>
+      <li><a href="#readings1">📚 참고문헌</a></li>
+      <li><a href="#definition">환경경제학의 정의</a></li>
+      <li><a href="#topics">주요 환경문제</a></li>
+      <li><a href="#climate">기후변화</a></li>
+      <li><a href="#distinction">타 학문과의 차별성</a></li>
+      <li><a href="#policy-kr">한국의 환경정책평가</a></li>
+    </ul>
+    <div class="toc-section">Part II — 경제와 자연환경</div>
+    <ul>
+      <li><a href="#readings2">📚 참고문헌</a></li>
+      <li><a href="#econ-env">경제와 환경의 관계</a></li>
+      <li><a href="#material">물질균형접근법</a></li>
+      <li><a href="#pathway">오염의 경로</a></li>
+      <li><a href="#terminology">기초 용어</a></li>
+      <li><a href="#pollutant-types">오염물질의 종류</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- 본문 -->
+<main id="main">
+
+  <!-- 챕터 헤더 -->
+  <div class="chapter-header">
+    <span class="chapter-badge">WEEK 1</span>
+    <h1>환경경제학 입문 &amp; 경제와 자연환경</h1>
+    <p class="subtitle">Introduction &amp; The Economy and the Environment</p>
+    <div class="chapter-meta">
+      <span class="meta-item">교재: <strong>Field &amp; Field 7판 Ch.1–2</strong></span>
+      <span class="meta-item">부교재: <strong>권오상 4판 제1–2장</strong></span>
+      <span class="meta-item">참고: <strong>Keohane &amp; Olmstead 2판 Ch.1</strong></span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PART I : 환경경제학이란
+  ══════════════════════════════════════════ -->
+  <div class="part-divider">
+    <div class="part-label">Part I</div>
+    <h2>What is Environmental Economics?</h2>
+    <p>환경경제학이란 무엇인가 — 정의, 주요 주제, 타 학문과의 관계</p>
+  </div>
+
+  <!-- 참고문헌 -->
+  <section class="text-section" id="readings1">
+    <h2>참고문헌</h2>
+    <div class="callout readings">
+      <div class="callout-title">📚 Readings</div>
+      <ul>
+        <li>Field and Field, 7th ed., Ch.1 — "What is Environmental Economics?"</li>
+        <li>권오상, 4판 제1장 — "환경경제학이란 어떤 학문인가?"</li>
+        <li>Keohane and Olmstead, 2nd ed., Ch.1 — "Introduction"</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 환경경제학의 정의 -->
+  <section class="text-section" id="definition">
+    <h2>환경경제학의 정의</h2>
+    <p class="section-subtitle">What is Environmental Economics?</p>
+
+    <h3>경제학이란?</h3>
+    <p>경제학은 <strong>희소한 자원(scarce resources)</strong> 하에서 개별 경제주체들이 어떠한 선택을 하는지를 연구하는 학문입니다. <strong>희소성(scarcity)</strong>이란 개별 경제주체가 원하는 만큼을 충족시키지 못하는 상황을 말하며, 경제학은 이 제약 조건 속에서 대안별 최적 선택이 무엇인지를 분석합니다.</p>
+
+    <h3>환경경제학의 정의 및 역할</h3>
+
+    <div class="def-box">
+      <div class="def-title">정의</div>
+      <p>"환경(environment)"과 "경제학(economics)"의 결합 — 환경·자원에 희소성이 존재하는 경우, 개별 경제주체들의 행동을 통해 이를 해석하고 해결책을 제시하는 학문 분야</p>
+    </div>
+
+    <p>환경경제학의 핵심 역할은 세 가지입니다.</p>
+    <ul>
+      <li>자원 및 환경에 영향을 주는 개별 경제주체의 <strong>의사결정 분석</strong></li>
+      <li>유인(incentives)이 주어졌을 때 경제주체들의 행동을 예측하고, 희소한 자원의 <strong>효율적·최적 분배</strong>를 통해 후생 극대화 달성</li>
+      <li><strong>시장 실패</strong>(공공재, 외부성, 공유의 비극 등)를 분석하고, 이를 해결하는 <strong>정책 설계</strong>(인센티브, 시장원리, 가격 등)</li>
+    </ul>
+
+    <div class="callout example">
+      <div class="callout-title">💧 예시 — 물 자원 배분 문제</div>
+      <p>물이 부족한 경우, 다양한 사용처(식수, 양식, 농업용 등) 중 어떻게 분배하는 것이 사회적으로 가장 바람직한가? 환경경제학은 <em>net-benefits maximization</em>과 <em>MRT(한계전환율)</em> 등의 원리를 적용해 이 질문에 답합니다.</p>
+    </div>
+
+    <h3>Keohane &amp; Olmstead의 접근법</h3>
+    <div class="callout research">
+      <div class="callout-title">📖 Keohane &amp; Olmstead, Ch.1, p.2</div>
+      <p>콜럼비아강과 스네이크강은 미국 태평양 북서부 지역 전체에 물을 공급하며, 식수·관개·운송·전력 생산과 멸종위기 연어 개체군 보호에 활용됩니다. 이 경쟁적 이용들 사이에서 어떻게 균형을 맞출 것인가?</p>
+      <p style="margin-top:10px"><strong>"Economics provides a framework for answering these questions. The basic approach: measure the costs and benefits of each possible policy … and choose the policy that generates the maximum net benefit to society as a whole."</strong></p>
+    </div>
+  </section>
+
+  <!-- 주요 환경문제 -->
+  <section class="text-section" id="topics">
+    <h2>환경경제학의 주요 주제</h2>
+    <p class="section-subtitle">Key Topics in Environmental Economics</p>
+
+    <p>현재 인류가 직면한 주요 환경문제는 다음과 같습니다.</p>
+    <ul>
+      <li><strong>기후변화</strong> — 온실가스 배출로 인한 지구 온난화와 그 광범위한 영향</li>
+      <li><strong>대기오염</strong> — 미세먼지(PM2.5, PM10) 등 대기오염물질로 인한 건강 피해</li>
+      <li><strong>수질오염</strong> — 하천·해양 오염으로 인한 생태계 파괴 및 식수 문제</li>
+      <li><strong>쓰레기 폐기</strong> — 플라스틱 폐기물, 매립지 부족 등 폐기물 관리 문제</li>
+      <li><strong>생태계 파괴</strong> — 생물다양성 감소, 산림 파괴, 서식지 손실</li>
+    </ul>
+  </section>
+
+  <!-- 기후변화 -->
+  <section class="text-section" id="climate">
+    <h2>기후변화와 환경경제학</h2>
+    <p class="section-subtitle">Climate Change — A Central Challenge</p>
+
+    <h3>기후변화의 경제적 성격</h3>
+    <p>기후변화는 인간의 선택, 즉 경제 행위로 인해 발생합니다(대부분의 과학자들이 동의). 기온 상승·해수면 상승 외에도 <strong>학습, 생산성, 사망, 질병</strong> 등 다양한 분야에 영향을 미칩니다.</p>
+
+    <div class="def-box">
+      <div class="def-title">핵심 특징</div>
+      <p>인간의 경제행위는 비용(costs)을 발생시키지만, 기후변화로 인한 이 비용은 일반적인 생산 활동과 달리 <strong>직접적으로 관측되지 않는다</strong>는 점이 환경경제학적 분석을 어렵게 만드는 핵심 요인입니다.</p>
+    </div>
+
+    <h3>기후변화의 다양한 영향</h3>
+    <ul>
+      <li><strong>학습에 미치는 영향 (Heat Hurts Learning)</strong> — Park et al. (2020): 기온 상승이 학업 성취에 부정적 영향</li>
+      <li><strong>사망률에 미치는 영향</strong> — Carleton et al. (2020): 극단적 더위·추위가 사망률 증가</li>
+      <li><strong>Valley Fever 확산</strong> — 기후변화로 인한 감염성 질환 분포 변화</li>
+      <li><strong>산불 증가</strong> — 1°C 기온 상승 시 서부 미국 연간 산불 피해 면적이 중앙값 기준 크게 증가 (Peterson &amp; Littell, 2012)</li>
+    </ul>
+
+    <h3>기후변화의 경제학적 쟁점</h3>
+    <p>기후변화는 <strong>전지구적 환경문제(global pollutants)</strong>로, 전 세계의 공동 노력이 필요합니다. 도쿄 의정서, 파리기후변화협약 등 국제적 합의가 이루어졌으나, 실질적 감축 노력은 여전히 미흡합니다.</p>
+
+    <div class="callout important">
+      <div class="callout-title">⚠️ 왜 기후변화 대응이 어려운가?</div>
+      <p>온실가스 감축에는 개별 국가의 <strong>비용</strong>이 소요되지만, 기후변화 완화로 인한 <strong>편익</strong>은 노력하지 않은 국가에도 발생합니다. 이는 <em>global public good</em>(전지구적 공공재)의 전형적 사례로, 시장 실패가 발생하는 근본 원인입니다.</p>
+    </div>
+
+    <p>환경경제학의 관점에서 기후변화 문제는 다음 질문들로 구체화됩니다.</p>
+    <ul>
+      <li>시장실패가 발생하는 기후변화 문제를 해결하는 <strong>최적 정책</strong>은 무엇인가?</li>
+      <li>어느 수준의 온실가스 감축이 합리적인가? (<strong>한계편익 = 한계비용</strong> 원리)</li>
+      <li>기후변화로 회피된 피해(avoided damages)를 어떻게 <strong>화폐적 가치</strong>로 환산하는가?</li>
+    </ul>
+  </section>
+
+  <!-- 타 학문과의 차별성 -->
+  <section class="text-section" id="distinction">
+    <h2>환경경제학과 타 학문의 차별성</h2>
+    <p class="section-subtitle">What Makes Environmental Economics Distinct?</p>
+
+    <p>환경경제학은 개인의 <strong>윤리의식보다 경제적 유인(economic incentive)</strong>에 집중합니다. 경제주체들은 경제적·사회적 제도의 틀 안에서 효용 극대화(utility maximization) 또는 이윤 극대화(profit maximization)를 추구하며 의사결정을 내립니다.</p>
+
+    <h3>경제적 유인의 역할</h3>
+    <p>환경의 가치가 높다면, 환경에 이로운 방향으로 의사결정을 할 수 있도록 경제적 유인의 구조를 변경하는 방법(정책)을 연구합니다. 대표적 사례는 다음과 같습니다.</p>
+    <ul>
+      <li><strong>쓰레기 종량제</strong> — 폐기물 배출량에 비례한 비용 부담</li>
+      <li><strong>폐기물 예치금제도</strong> — 제품 구매 시 예치금을 내고, 반환 시 환급</li>
+      <li><strong>탄소세 / 혼잡통행료</strong> — 탄소 배출 및 교통혼잡에 가격 신호 부여</li>
+      <li><strong>전기요금의 기후환경비용 반영</strong> — 외부비용의 내부화</li>
+    </ul>
+
+    <h3>시장의 역할과 한계</h3>
+    <p>경제학은 원칙적으로 모든 문제를 <strong>시장(market) 기능</strong>을 통해 해결하고자 합니다(효율성 추구). 그러나 환경 문제에서는 외부적인 시장이 존재하지 않거나 왜곡되어 있습니다. 정부의 역할은 시장 기능이 잘 작동하도록 돕는 것이며, 이것이 환경경제학의 핵심 연구 주제입니다.</p>
+  </section>
+
+  <!-- 한국의 환경정책평가 -->
+  <section class="text-section" id="policy-kr">
+    <h2>한국에서의 환경정책평가</h2>
+    <p class="section-subtitle">Environmental Policy Analysis in Korea</p>
+
+    <h3>환경영향평가</h3>
+    <p>1977년 '환경보전법'에 따라 도시개발·산업입지조성·에너지개발 등 사업 시행 시 환경영향평가 제도가 도입되었습니다. 사업 시행자가 제출한 환경영향평가서를 전문가 및 관계부처 검토를 거쳐 승인 여부를 결정합니다.</p>
+
+    <p>환경영향평가는 세 종류로 구분됩니다.</p>
+    <ul>
+      <li><strong>전략환경영향평가</strong> — 계획 단계에서의 사전 검토</li>
+      <li><strong>환경영향평가</strong> — 개발사업 시행 전 본 평가</li>
+      <li><strong>소규모 환경영향평가</strong> — 소규모 사업에 대한 간이 평가</li>
+    </ul>
+
+    <p>주요 평가 대상: 도시개발, 산업입지, 에너지개발, 항만·도로·철도·공항 건설, 수자원개발, 관광단지, 산지개발, 국방·군사시설 등</p>
+
+    <div class="callout example">
+      <div class="callout-title">🏔️ 사례 — 설악산 오색케이블카</div>
+      <p>설악산국립공원 내 오색삭도(케이블카) 설치 사업은 환경영향평가 및 예비타당성조사의 대표적 사례입니다. 자연환경 보전과 관광 개발 사이의 편익·비용 분석이 핵심 쟁점으로, 환경영향평가정보지원시스템(EIASS: www.eiass.go.kr)에서 관련 자료를 확인할 수 있습니다.</p>
+    </div>
+
+    <h3>예비타당성조사제도</h3>
+    <p>공공사업 시행 여부 결정 이전에 제3의 기관이 객관적으로 사업의 정책적 의의와 경제성을 사전 평가하는 제도입니다. 1999년 「예산회계법」 시행령에 의해 도입되었으며, 기획재정부 장관의 요청에 따라 한국개발연구원(KDI) 공공투자관리센터에서 총괄합니다.</p>
+
+    <p>예비타당성조사는 네 가지 분석으로 구성됩니다.</p>
+    <ul>
+      <li><strong>경제성분석</strong> — 비용편익분석(B/C ratio) 등</li>
+      <li><strong>정책성분석</strong> — 상위 계획과의 부합성, 사업 추진 의지 등</li>
+      <li><strong>지역균형발전분석</strong> — 지역 낙후도 및 균형발전 기여도</li>
+      <li><strong>기술성분석</strong> — 기술적 실현 가능성 검토</li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       PART II : 경제와 자연환경
+  ══════════════════════════════════════════ -->
+  <div class="part-divider">
+    <div class="part-label">Part II</div>
+    <h2>The Economy and the Environment</h2>
+    <p>경제와 자연환경의 관계 — 물질균형접근법, 오염의 경로, 기초 개념</p>
+  </div>
+
+  <!-- 참고문헌 -->
+  <section class="text-section" id="readings2">
+    <h2>참고문헌</h2>
+    <div class="callout readings">
+      <div class="callout-title">📚 Readings</div>
+      <ul>
+        <li>Field and Field, 7th ed., Ch.2 — "The Economy and the Environment"</li>
+        <li>권오상, 4판 제2장 — "경제와 자연환경"</li>
+        <li>Keohane and Olmstead, 2nd ed., Ch.1 — "Introduction"</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 경제와 환경의 관계 -->
+  <section class="text-section" id="econ-env">
+    <h2>경제와 자연환경의 관계</h2>
+    <p class="section-subtitle">The Relationship Between the Economy and the Natural Environment</p>
+
+    <p>경제는 사회 내 각 개인에게 물질적·정신적 후생 증대를 추구하는 통로가 되는 기술적·법률적·사회적 제도들의 집합체입니다. 경제는 <strong>생산</strong>과 <strong>분배</strong>의 두 기능으로 구성됩니다.</p>
+
+    <h3>경제사상의 발전과 자연환경 인식</h3>
+    <p>경제성장 과정에서 천연자원의 희소성에 대한 인식은 학파에 따라 변화해왔습니다.</p>
+
+    <div class="term-table" style="margin:18px 0">
+      <table class="term-table">
+        <thead>
+          <tr><th>학파</th><th>대표 학자</th><th>자연환경에 대한 관점</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>고전학파</td>
+            <td>D. Ricardo, T. Malthus</td>
+            <td>토지(천연자원)의 중요성을 크게 인식. 토지의 가치결정 원리와 제한된 토지에서의 경제성장 문제에 집중</td>
+          </tr>
+          <tr>
+            <td>신고전학파</td>
+            <td>A. Marshall 등</td>
+            <td>산업혁명을 거치며 인간이 만든 자본으로 천연자원 대체 경험. 노동과 자본을 핵심 생산요소로 인식</td>
+          </tr>
+          <tr>
+            <td>현대경제성장론</td>
+            <td>Schultz, Lucas, Romer 등</td>
+            <td>인간자본(human capital)의 역할 강조. 교육투자로 효율성이 결정되는 노동을 자본재로 인식</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>그러나 경제성장 과정에서 인류가 경험한 <strong>환경오염</strong>과 <strong>전지구적 천연자원 감소</strong>는 경제와 자연환경의 관계를 재검토하는 계기가 되었습니다.</p>
+  </section>
+
+  <!-- 물질균형접근법 -->
+  <section class="text-section" id="material">
+    <h2>물질균형접근법</h2>
+    <p class="section-subtitle">Material Balance Approach (Kneese et al., 1970)</p>
+
+    <div class="def-box">
+      <div class="def-title">물질균형접근법의 핵심 전제</div>
+      <p>경제시스템은 <strong>자연환경(Natural Environment)의 하나의 구성요소</strong>로 존재합니다. 경제시스템의 과정과 변화는 자연법칙을 따르며, 원재료와 에너지 투입 없이는 생산과 소비 활동이 불가능합니다.</p>
+    </div>
+
+    <p>니스 외(Kneese et al., 1970)에 의해 개발된 이 접근법은 다음을 강조합니다.</p>
+    <ul>
+      <li>자연세계의 역할 중 하나는 <strong>원재료와 에너지 투입의 공급자</strong>임</li>
+      <li>경제활동의 결과로 발생하는 폐기물은 자연환경으로 돌아감</li>
+      <li>이를 통해 <strong>자원경제학(Resource Economics)</strong>과 <strong>환경경제학(Environmental Economics)</strong>의 분석 영역이 구분됨</li>
+    </ul>
+
+    <p>물질흐름수지(단순형)는 자원 채취 → 생산·소비 → 폐기물 발생의 선형 흐름을 보여주며, 환경관리형은 재활용·재사용 등을 통해 폐기물을 최소화하는 순환 구조를 나타냅니다.</p>
+  </section>
+
+  <!-- 오염의 경로 -->
+  <section class="text-section" id="pathway">
+    <h2>오염의 경로</h2>
+    <p class="section-subtitle">A Pathway of Pollution</p>
+
+    <p>오염은 경제 행위에서 시작하여 최종 수용체에 피해를 입히기까지 여러 단계를 거칩니다.</p>
+
+    <div class="pathway">
+      <div class="pathway-step">
+        <div class="step-icon">🏭</div>
+        <div class="step-title">폐기물 발생</div>
+        <div class="step-desc">경제 내 N개 오염원의 생산·소비 활동</div>
+      </div>
+      <div class="pathway-arrow">→</div>
+      <div class="pathway-step">
+        <div class="step-icon">♻️</div>
+        <div class="step-title">배출</div>
+        <div class="step-desc">희석·저장·재활용 후 일부가 Emissions로 배출</div>
+      </div>
+      <div class="pathway-arrow">→</div>
+      <div class="pathway-step">
+        <div class="step-icon">🌫️</div>
+        <div class="step-title">환경매체 통과</div>
+        <div class="step-desc">대기·토지·물을 통해 이동·확산</div>
+      </div>
+      <div class="pathway-arrow">→</div>
+      <div class="pathway-step">
+        <div class="step-icon">📊</div>
+        <div class="step-title">환경질 변화</div>
+        <div class="step-desc">화학·기상·물리·수문학적 과정으로 Ambient Quality 변화</div>
+      </div>
+      <div class="pathway-arrow">→</div>
+      <div class="pathway-step">
+        <div class="step-icon">👥</div>
+        <div class="step-title">피해 발생</div>
+        <div class="step-desc">인간·생태계 등 최종 수용체에 Damages 발생</div>
+      </div>
+    </div>
+
+    <h3>핵심 포인트</h3>
+    <ul>
+      <li>동일한 오염 수준이라도 최종 수용체에 따라 피해의 정도가 다를 수 있음</li>
+      <li><strong>회피행위(avoiding behavior)</strong>를 통해 피해를 감소시킬 수 있음 — 예: 공기청정기를 통한 미세먼지 피해 감소</li>
+    </ul>
+
+    <h3>대기오염 피해비용 산정 예시</h3>
+    <p>대기오염의 단위 피해비용(₩/ton)은 다음 단계를 거쳐 산정합니다 (안소은 외, 2017).</p>
+    <div class="pathway" style="flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:8px;padding:12px 16px;border:1px solid #bbf7d0">
+        <span style="font-weight:700;color:#15803d;min-width:120px">① 오염물질 배출량</span>
+        <span style="color:#6b7280;font-size:14px">NOx, SOx, PM 등 각 오염물질의 배출량 추정</span>
+      </div>
+      <div style="text-align:center;color:#4ade80;font-size:18px">↓</div>
+      <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:8px;padding:12px 16px;border:1px solid #bbf7d0">
+        <span style="font-weight:700;color:#15803d;min-width:120px">② 대기모델링</span>
+        <span style="color:#6b7280;font-size:14px">대기확산모델로 PM2.5 농도변화 추정</span>
+      </div>
+      <div style="text-align:center;color:#4ade80;font-size:18px">↓</div>
+      <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:8px;padding:12px 16px;border:1px solid #bbf7d0">
+        <span style="font-weight:700;color:#15803d;min-width:120px">③ 농도반응함수</span>
+        <span style="color:#6b7280;font-size:14px">PM2.5 농도 변화 → 조기사망 영향 추정</span>
+      </div>
+      <div style="text-align:center;color:#4ade80;font-size:18px">↓</div>
+      <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:8px;padding:12px 16px;border:1px solid #bbf7d0">
+        <span style="font-weight:700;color:#15803d;min-width:120px">④ 가치 추정</span>
+        <span style="color:#6b7280;font-size:14px">통계적 생명가치(VSL)로 화폐화 → 단위 피해비용(₩/ton) 산출</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 기초 용어 -->
+  <section class="text-section" id="terminology">
+    <h2>기초 용어 정리</h2>
+    <p class="section-subtitle">Key Terminology</p>
+
+    <table class="term-table">
+      <thead>
+        <tr><th>용어</th><th>정의</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>환경질<br><small>Environmental Quality</small></td>
+          <td>자연환경의 상태를 나타내기 위해 사용되는 용어</td>
+        </tr>
+        <tr>
+          <td>폐기물<br><small>Residuals</small></td>
+          <td>어떤 산출물이 생산되거나 소비되는 과정을 거치고도 남은 물질</td>
+        </tr>
+        <tr>
+          <td>오염물질 배출량<br><small>Emissions / Effluent</small></td>
+          <td>폐기물 가운데 자연으로 배출된 양</td>
+        </tr>
+        <tr>
+          <td>오염물질<br><small>Pollutants</small></td>
+          <td>자연으로 배출될 경우 환경질을 떨어뜨리는 모든 물질이나 에너지</td>
+        </tr>
+        <tr>
+          <td>오염원<br><small>Sources</small></td>
+          <td>공장·자동차·쓰레기 매립장처럼 오염물질이 배출되는 장소나 위치</td>
+        </tr>
+        <tr>
+          <td>오염피해<br><small>Damages</small></td>
+          <td>환경오염이 사람과 생태계에 미치는 부정적인 영향</td>
+        </tr>
+        <tr>
+          <td>환경매체<br><small>Environmental Media</small></td>
+          <td>토지·물·대기처럼 자연환경을 구성하는 요소들</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 오염물질의 종류 -->
+  <section class="text-section" id="pollutant-types">
+    <h2>오염물질의 종류</h2>
+    <p class="section-subtitle">Types of Pollutants</p>
+
+    <p>오염물질은 여러 기준에 따라 분류할 수 있습니다.</p>
+
+    <h3>① 축적성 vs. 비축적성 오염물질</h3>
+    <div class="def-box">
+      <div class="def-title">Cumulative vs. Noncumulative Pollutants</div>
+      <p><strong>축적성 오염물질</strong>은 자연환경에서 분해되지 않고 누적되는 물질(예: 중금속, CO₂)이며, <strong>비축적성 오염물질</strong>은 자연적으로 분해·희석되는 물질(예: 일부 유기물질)입니다.</p>
+    </div>
+
+    <h3>② 국지적·지역적·월경 오염물질</h3>
+    <div class="def-box">
+      <div class="def-title">Local vs. Regional and Global Pollutants</div>
+      <p><strong>국지적 오염물질</strong>은 배출 지점 주변에만 영향(예: 소음), <strong>지역적 오염물질</strong>은 광역적 영향(예: 산성비), <strong>월경 오염물질(transboundary)</strong>은 국경을 넘어 영향을 미칩니다(예: CO₂, 월경 대기오염).</p>
+    </div>
+
+    <h3>③ 점원 vs. 비점원 오염물질</h3>
+    <div class="def-box">
+      <div class="def-title">Point-Source vs. Nonpoint-Source Pollutants</div>
+      <p><strong>점원오염(point-source)</strong>은 배출 지점이 명확한 오염(예: 공장 굴뚝, 폐수관), <strong>비점원오염(nonpoint-source)</strong>은 배출 지점이 불특정한 오염(예: 농업용 비료 유출, 도시 빗물 유출)입니다. 비점원오염은 측정과 규제가 어렵습니다.</p>
+    </div>
+
+    <h3>④ 연속적 vs. 간헐적 오염</h3>
+    <div class="def-box">
+      <div class="def-title">Continuous vs. Episodic Emissions</div>
+      <p><strong>연속적 오염</strong>은 지속적으로 배출되는 오염(예: 공장 가동 중 배출), <strong>간헐적 오염</strong>은 특정 상황에서만 발생하는 오염(예: 사고성 유출, 계절적 농업 활동)입니다.</p>
+    </div>
+  </section>
+
+  <!-- 하단 네비게이션 -->
+  <div class="nav-bar">
+    <a href="index.html" class="nav-btn">← 목차로 돌아가기</a>
+    <a href="#" class="nav-btn" style="opacity:.5;pointer-events:none">Week 2 준비 중 →</a>
+  </div>
+
+</main>
+
+<script>
+// 사이드바 활성화 스크롤 감지
+const sections = document.querySelectorAll('section[id], div[id]');
+const links = document.querySelectorAll('#toc a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`#toc a[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>환경경제학 강의노트</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  background: #f7f8fc;
+  color: #1f2937;
+  min-height: 100vh;
+}
+
+/* ── 상단 헤더 ── */
+#hero {
+  background: linear-gradient(135deg, #052e16 0%, #14532d 60%, #15803d 100%);
+  color: #fff;
+  padding: 72px 40px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  color: #bbf7d0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 16px;
+  border-radius: 20px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+#hero h1 {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+#hero h1 span { color: #86efac; }
+#hero .subtitle {
+  font-size: 20px;
+  color: #86efac;
+  margin-bottom: 8px;
+}
+#hero .author {
+  font-size: 15px;
+  color: rgba(255,255,255,.55);
+  margin-top: 14px;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  margin-top: 36px;
+}
+.stat { text-align: center; }
+.stat-num { font-size: 28px; font-weight: 800; color: #fff; }
+.stat-label { font-size: 12px; color: #86efac; margin-top: 2px; letter-spacing: .5px; }
+
+/* ── 본문 컨테이너 ── */
+#content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* ── 챕터 그리드 ── */
+.chapters-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.chapter-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all .2s;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.chapter-card:hover {
+  border-color: #86efac;
+  box-shadow: 0 4px 20px rgba(21,128,61,.1);
+  transform: translateY(-2px);
+}
+.chapter-card.available { cursor: pointer; }
+.chapter-card.coming-soon {
+  opacity: .65;
+  cursor: default;
+  background: #fafafa;
+}
+.chapter-card.coming-soon:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: #e5e7eb;
+}
+
+/* 왼쪽 챕터 번호 배지 */
+.ch-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 800;
+}
+.chapter-card.available .ch-badge {
+  background: linear-gradient(135deg, #14532d, #15803d);
+  color: #fff;
+}
+.chapter-card.coming-soon .ch-badge {
+  background: #f3f4f6;
+  color: #9ca3af;
+}
+.ch-badge .ch-label { font-size: 10px; font-weight: 600; letter-spacing: .5px; }
+.ch-badge .ch-num   { font-size: 22px; line-height: 1; }
+
+/* 중간 텍스트 */
+.ch-info { flex: 1; min-width: 0; }
+.ch-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+}
+.chapter-card.coming-soon .ch-title { color: #6b7280; }
+.ch-subtitle { font-size: 13px; color: #6b7280; }
+.ch-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.topic-tag {
+  font-size: 11.5px;
+  background: #f0fdf4;
+  color: #15803d;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+.chapter-card.coming-soon .topic-tag {
+  background: #f3f4f6;
+  color: #9ca3af;
+}
+
+/* 오른쪽 상태 표시 */
+.ch-status {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.status-done {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.status-soon {
+  background: #f3f4f6;
+  color: #9ca3af;
+}
+
+/* 오른쪽 화살표 */
+.ch-arrow {
+  font-size: 20px;
+  color: #15803d;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+.chapter-card.coming-soon .ch-arrow { display: none; }
+
+/* ── 안내 박스 ── */
+.info-banner {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-left: 4px solid #16a34a;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 40px;
+  font-size: 14px;
+  color: #14532d;
+  line-height: 1.7;
+}
+.info-banner strong { color: #15803d; }
+
+/* ── 푸터 ── */
+footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+  color: #9ca3af;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 40px;
+}
+
+@media (max-width: 600px) {
+  #hero h1 { font-size: 32px; }
+  .hero-stats { gap: 20px; }
+  .chapter-card { padding: 18px 16px; gap: 14px; }
+  .ch-badge { width: 46px; height: 46px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 히어로 헤더 -->
+<header id="hero">
+  <div class="hero-badge">Lecture Notes</div>
+  <h1>환경<span>경제학</span></h1>
+  <p class="subtitle">Environmental Economics</p>
+  <p class="author">경제학과 &nbsp;|&nbsp; 전호철</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">14</div>
+      <div class="stat-label">Weeks</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">35</div>
+      <div class="stat-label">Slides (Week 1)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Published</div>
+    </div>
+  </div>
+</header>
+
+<!-- 챕터 목록 -->
+<main id="content">
+  <p class="section-label">강의 목차</p>
+
+  <div class="chapters-grid">
+
+    <!-- Week 1 — 완료 -->
+    <a href="week01.html" class="chapter-card available">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">1</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">환경경제학 입문 &amp; 경제와 자연환경</div>
+        <div class="ch-subtitle">Introduction &amp; The Economy and the Environment</div>
+        <div class="ch-topics">
+          <span class="topic-tag">환경경제학이란</span>
+          <span class="topic-tag">시장실패</span>
+          <span class="topic-tag">물질균형접근법</span>
+          <span class="topic-tag">오염의 경로</span>
+          <span class="topic-tag">기후변화</span>
+        </div>
+      </div>
+      <span class="ch-status status-done">공개</span>
+      <span class="ch-arrow">→</span>
+    </a>
+
+    <!-- Week 2 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">2</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">비용과 편익, 수요와 공급</div>
+        <div class="ch-subtitle">Costs, Benefits, Demand and Supply</div>
+        <div class="ch-topics">
+          <span class="topic-tag">한계비용</span>
+          <span class="topic-tag">한계편익</span>
+          <span class="topic-tag">수요·공급곡선</span>
+          <span class="topic-tag">소비자잉여</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 3 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">3</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">시장실패, 외부효과 및 공공재</div>
+        <div class="ch-subtitle">Market Failure, Externalities and Public Goods</div>
+        <div class="ch-topics">
+          <span class="topic-tag">외부성</span>
+          <span class="topic-tag">공공재</span>
+          <span class="topic-tag">공유의 비극</span>
+          <span class="topic-tag">코즈 정리</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 4 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">4</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">환경정책 분석틀 &amp; 환경질의 경제학</div>
+        <div class="ch-subtitle">Frameworks of Analysis &amp; Economics of Environmental Quality</div>
+        <div class="ch-topics">
+          <span class="topic-tag">환경영향평가</span>
+          <span class="topic-tag">예비타당성</span>
+          <span class="topic-tag">비용편익분석</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 5 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">5</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">편익 측정</div>
+        <div class="ch-subtitle">Measuring Benefits</div>
+        <div class="ch-topics">
+          <span class="topic-tag">지불의사액</span>
+          <span class="topic-tag">현시선호법</span>
+          <span class="topic-tag">진술선호법</span>
+          <span class="topic-tag">헤도닉 가격법</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 6 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">6</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">비용 측정</div>
+        <div class="ch-subtitle">Measuring Costs</div>
+        <div class="ch-topics">
+          <span class="topic-tag">저감비용</span>
+          <span class="topic-tag">한계저감비용</span>
+          <span class="topic-tag">비용효과분석</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 7 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">7</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">환경정책 평가기준 &amp; 분권화 정책</div>
+        <div class="ch-subtitle">Policy Criteria &amp; Decentralized Policies</div>
+        <div class="ch-topics">
+          <span class="topic-tag">효율성</span>
+          <span class="topic-tag">형평성</span>
+          <span class="topic-tag">코즈 정리</span>
+          <span class="topic-tag">책임원칙</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 8 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">8</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">직접규제</div>
+        <div class="ch-subtitle">Command-and-Control Policies</div>
+        <div class="ch-topics">
+          <span class="topic-tag">배출기준</span>
+          <span class="topic-tag">기술기준</span>
+          <span class="topic-tag">성과기준</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 9 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">9</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">배출부과금과 보조금</div>
+        <div class="ch-subtitle">Emission Charges and Subsidies</div>
+        <div class="ch-topics">
+          <span class="topic-tag">피구세</span>
+          <span class="topic-tag">탄소세</span>
+          <span class="topic-tag">환경보조금</span>
+          <span class="topic-tag">코즈 정리</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 10 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">10</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">배출권거래제</div>
+        <div class="ch-subtitle">Market Trading Systems</div>
+        <div class="ch-topics">
+          <span class="topic-tag">배출권</span>
+          <span class="topic-tag">Cap-and-Trade</span>
+          <span class="topic-tag">탄소시장</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 11 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">11</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">경제발전과 환경</div>
+        <div class="ch-subtitle">Economic Development and the Environment</div>
+        <div class="ch-topics">
+          <span class="topic-tag">환경쿠즈네츠곡선</span>
+          <span class="topic-tag">지속가능발전</span>
+          <span class="topic-tag">녹색성장</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 12 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">12</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">지구환경문제</div>
+        <div class="ch-subtitle">The Global Environment</div>
+        <div class="ch-topics">
+          <span class="topic-tag">월경오염</span>
+          <span class="topic-tag">국제환경협약</span>
+          <span class="topic-tag">글로벌 공공재</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 13 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">13</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">기후변화의 과학</div>
+        <div class="ch-subtitle">The Science of Climate Change</div>
+        <div class="ch-topics">
+          <span class="topic-tag">온실가스</span>
+          <span class="topic-tag">IPCC</span>
+          <span class="topic-tag">기후모델</span>
+          <span class="topic-tag">티핑포인트</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+    <!-- Week 14 -->
+    <div class="chapter-card coming-soon">
+      <div class="ch-badge">
+        <span class="ch-label">WK</span>
+        <span class="ch-num">14</span>
+      </div>
+      <div class="ch-info">
+        <div class="ch-title">기후변화의 경제학</div>
+        <div class="ch-subtitle">Economics of Climate Change</div>
+        <div class="ch-topics">
+          <span class="topic-tag">탄소의 사회적 비용</span>
+          <span class="topic-tag">할인율</span>
+          <span class="topic-tag">Nordhaus</span>
+          <span class="topic-tag">Stern Review</span>
+        </div>
+      </div>
+      <span class="ch-status status-soon">준비 중</span>
+    </div>
+
+  </div>
+
+  <div class="info-banner">
+    <strong>📌 업데이트 안내</strong><br>
+    현재 제1주차(환경경제학 입문 &amp; 경제와 자연환경)가 공개되어 있습니다. 나머지 주차는 순차적으로 업데이트될 예정입니다.
+  </div>
+</main>
+
+<footer>
+  환경경제학 강의노트 &nbsp;|&nbsp; Environmental Economics &nbsp;|&nbsp; 경제학과 전호철
+</footer>
+
+</body>
+</html>
